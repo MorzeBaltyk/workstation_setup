@@ -25,6 +25,7 @@
       - sysstat
       - strace
       - screen
+      - rdesktop
       - vim
       - prettyping
       - geany

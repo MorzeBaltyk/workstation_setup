@@ -66,6 +66,8 @@ alias lsopen='lsof +aL1'
 #Local aliases for myself.
 alias pycharm='~/Tools/pycharm/latest/bin/pycharm.sh &'
 alias t='task +READY' # Taskwarrior
+alias td='task burndown.daily'
+alias tw='task burndown.weekly'
 if [ -z "$PRIV_DESKTOP" ]; then
    alias ll='ls -lart'
 fi
