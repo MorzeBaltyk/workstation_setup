@@ -61,7 +61,7 @@ alias memfree='free -m | grep Mem |  awk '\''{print $4}'\'''
 alias swapfree='free -m | grep Swap |  awk '\''{print $4}'i\'''
 alias pz="ps -ef|${E_GREP} -v '/usr/lib/saf/sac|/usr/lib/saf/ttymon|/usr/lib/utmpd|/usr/sbin/syslogd|/usr/cluster/lib/sc/failfastd|/usr/sbin/cron|zsched|/usr/lib/nfs/nfsmapid|/usr/lib/nfs/nfs4cbd|/usr/lib/inet/inetd|/sbin/init|/usr/lib/ldap/ldap_cachemgr|/usr/sbin/rpcbind|/usr/lib/ssh/sshd|/usr/lib/sendmail|/usr/lib/saf/ttymon|/usr/lib/autofs/automountd|/usr/sbin/nscd|/usr/lib/nfs/lockd|/usr/lib/crypto/kcfd|/usr/lib/nfs/statd|/usr/lib/krb5/ktkt_warnd|/usr/lib/autofs/automountd|/usr/cluster/lib/sc/pmmd|/lib/svc/bin/svc.startd|/lib/svc/bin/svc.configd|/usr/cluster/lib/sc/rpc.pmfd|/usr/bin/login|ps -ef|-bash|0:00 -sh|/usr/cluster/lib/|/usr/cluster/bin/cl|/usr/bin/bash|/usr/local/ecbmon/|[.*]|grep '"
 alias lsf='compgen -A function'
-alias vib='vi ~/.bash_profile'
+alias vib='vim ~/.bash_profile'
 alias lsopen='lsof +aL1'
 #Local aliases for myself.
 alias pycharm='~/Tools/pycharm/latest/bin/pycharm.sh &'
@@ -180,7 +180,9 @@ export PS1
 ############################################################################
 #    Cleanup of my profile of business hosts I'm connecting to 
 ############################################################################
-if [ -z "$PRIV_DESKTOP" ]
-then
-	rm -f /tmp/bash_profile.tmp /tmp/*.bash.tmp 
-fi
+# Copy le bash_profile when login to distant server. 
+# In our case of Homedir shared with NFS on all Prod, this is not necessary 
+#if [ -z "$PRIV_DESKTOP" ]
+#then
+#	rm -f /tmp/bash_profile.tmp /tmp/*.bash.tmp 
+#fi
