@@ -32,7 +32,6 @@
     become: true
     tags: pkgs
 
-
   - name: setup some expected dirs
     file:
       dest: "{{ item }}"
