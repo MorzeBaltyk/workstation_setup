@@ -7,8 +7,6 @@ Also modable to allow others to quickly fork it and use it for themselves withou
 ## What it does
 
   * Installs my favourite productivity packages
-  * Installs dev version of ansible
-  * Removes ansible pkg
   * Sets up my bash profile for local and remote work
 
 ## Prerequisites
