@@ -3,17 +3,6 @@
 - hosts: localhost
 
   tasks:
-
-  - name: Install ansible from github
-    git:
-      repo: https://github.com/ansible/ansible.git
-      dest: ~/ansible
-    tags: ansible
-
-  - name: Install dev ansible
-    pip:
-      requirements: ~/ansible/requirements.txt
-    tags: ansible
   
   - name: create python -> python3 symlink
     file:
@@ -32,7 +21,9 @@
       - htop
       - ack
       - task
-      - tldr
+      - fping
+      - sysstat
+      - strace
       - screen
       - vim
       - prettyping
@@ -123,10 +114,3 @@
       dest: ~/.Screenlogs
       state: directory
     tags: screen
-
-  - name: Remove standard ansible now that we have devel
-    dnf:
-      name: ansible
-      state: absent
-    become: true
-    tags: ansible
