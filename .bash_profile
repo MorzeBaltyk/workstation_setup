@@ -56,7 +56,7 @@ export TMP=~/tmp/
 
 alias vt=' TERM vt100 ; stty rows 24'
 alias dy='date +%Y%m%d'
-alias cd="pushd >/dev/null"
+#alias cd="pushd >/dev/null"
 alias memfree='free -m | grep Mem |  awk '\''{print $4}'\'''
 alias swapfree='free -m | grep Swap |  awk '\''{print $4}'i\'''
 alias pz="ps -ef|${E_GREP} -v '/usr/lib/saf/sac|/usr/lib/saf/ttymon|/usr/lib/utmpd|/usr/sbin/syslogd|/usr/cluster/lib/sc/failfastd|/usr/sbin/cron|zsched|/usr/lib/nfs/nfsmapid|/usr/lib/nfs/nfs4cbd|/usr/lib/inet/inetd|/sbin/init|/usr/lib/ldap/ldap_cachemgr|/usr/sbin/rpcbind|/usr/lib/ssh/sshd|/usr/lib/sendmail|/usr/lib/saf/ttymon|/usr/lib/autofs/automountd|/usr/sbin/nscd|/usr/lib/nfs/lockd|/usr/lib/crypto/kcfd|/usr/lib/nfs/statd|/usr/lib/krb5/ktkt_warnd|/usr/lib/autofs/automountd|/usr/cluster/lib/sc/pmmd|/lib/svc/bin/svc.startd|/lib/svc/bin/svc.configd|/usr/cluster/lib/sc/rpc.pmfd|/usr/bin/login|ps -ef|-bash|0:00 -sh|/usr/cluster/lib/|/usr/cluster/bin/cl|/usr/bin/bash|/usr/local/ecbmon/|[.*]|grep '"
