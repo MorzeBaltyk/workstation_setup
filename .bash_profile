@@ -2,13 +2,14 @@
 [[ -r ~/.bashrc ]] && shopt -q login_shell && . ~/.bashrc
 
 ### Fix to load the ${SERV_ACC} profile on other systems with some setup
-if [ -z "$PRIV_DESKTOP" ]
-then
-   [ $(uname | grep SunOS) ] && [[ -r .profile ]] && source .profile
-   [[ -r /tmp/corpVars.bash.tmp ]] && source /tmp/corpVars.bash.tmp 
-   PATH=${PATH}:/bin:${CORPPATHS}
-   [ $(uname | grep Linux) ] && [[ -r .bash_profile ]] && source .bash_profile 
-fi
+# On distant Server
+#if [ -z "$PRIV_DESKTOP" ]
+#then
+#   [ $(uname | grep SunOS) ] && [[ -r .profile ]] && source .profile
+#   [[ -r /tmp/corpVars.bash.tmp ]] && source /tmp/corpVars.bash.tmp 
+#   PATH=${PATH}:/bin:${CORPPATHS}
+#   [ $(uname | grep Linux) ] && [[ -r .bash_profile ]] && source .bash_profile 
+#fi
 
 case $OSTYPE in
         FreBSD*)
@@ -62,15 +63,16 @@ alias swapfree='free -m | grep Swap |  awk '\''{print $4}'i\'''
 alias pz="ps -ef|${E_GREP} -v '/usr/lib/saf/sac|/usr/lib/saf/ttymon|/usr/lib/utmpd|/usr/sbin/syslogd|/usr/cluster/lib/sc/failfastd|/usr/sbin/cron|zsched|/usr/lib/nfs/nfsmapid|/usr/lib/nfs/nfs4cbd|/usr/lib/inet/inetd|/sbin/init|/usr/lib/ldap/ldap_cachemgr|/usr/sbin/rpcbind|/usr/lib/ssh/sshd|/usr/lib/sendmail|/usr/lib/saf/ttymon|/usr/lib/autofs/automountd|/usr/sbin/nscd|/usr/lib/nfs/lockd|/usr/lib/crypto/kcfd|/usr/lib/nfs/statd|/usr/lib/krb5/ktkt_warnd|/usr/lib/autofs/automountd|/usr/cluster/lib/sc/pmmd|/lib/svc/bin/svc.startd|/lib/svc/bin/svc.configd|/usr/cluster/lib/sc/rpc.pmfd|/usr/bin/login|ps -ef|-bash|0:00 -sh|/usr/cluster/lib/|/usr/cluster/bin/cl|/usr/bin/bash|/usr/local/ecbmon/|[.*]|grep '"
 alias lsf='compgen -A function'
 alias vib='vim ~/.bash_profile'
+alias vibr='vim ~/.bashrc'
 alias lsopen='lsof +aL1'
 #Local aliases for myself.
+alias path='echo $PATH'
 alias pycharm='~/Tools/pycharm/latest/bin/pycharm.sh &'
 alias t='task +READY' # Taskwarrior
 alias td='task burndown.daily'
 alias tw='task burndown.weekly'
-if [ -z "$PRIV_DESKTOP" ]; then
-   alias ll='ls -lart'
-fi
+[[ -z "$PRIV_DESKTOP" ]] && alias ll='ls -lart'
+
 
 function calcspace() {
 echo "scale=1; $(df -k | egrep -e '(/dev/|rpool)' | grep -v /fd | grep -v cdrom | grep -v /global/.devices | grep -v /global/mgmt | awk '{s+=$3} END {print s}') / 1014^2" | bc
@@ -79,35 +81,20 @@ echo "scale=1; $(df -k | egrep -e '(/dev/|rpool)' | grep -v /fd | grep -v cdrom 
 ############################################################################
 #      Personal sourcing
 ############################################################################
-if [ ! -z "$PRIV_DESKTOP" ]; then
+## On Local Desktop ; but HomeDir Shared
+#if [ ! -z "$PRIV_DESKTOP" ]; then
    for FILE in ~/.privIncludes/*.bash; do
       source $FILE
    done
    for FILE in ~/.bashIncludes/*.bash; do
       source $FILE
    done
-fi
-############################################################################
-#      Portable Solaris functions and aliases
-############################################################################
+#fi
 
-function clsvc() ( # This function shows the status of all resources whose resource group matches the command line regex
-	 clrg list | ${E_GREP} -i $1 | xargs -i clrs status -g {} | grep -v Resource | grep -v '^$'
-)
 
-function clrestart() ( # This function restarts one resource 
-         clrs disable $1 && clrs enable $1
-)
-
-if [ -x /usr/cluster/bin/clnode ]; then
-   alias clzpools="for node in $(clnode list); do echo zpools in $node; ssh $node zpool list; done"
-fi
-
-alias clrsnaps='zfs list -t snapshot -o name -H | while read a; do echo Destroying $a; zfs destroy $a; done'
 ############################################################################
 #      PROMPT 
 ############################################################################
-
 RED="\[\033[0;31m\]"
 GREEN="\[\033[0;32m\]"
 LIGHT_GREEN="\[\033[1;32m\]"
@@ -152,7 +139,7 @@ fi
 
 EXTRA_PROMPT_COLOUR=${STR_COLOUR}
 [ `zone-where 2>/dev/null` ] && EXTRA_PROMPT=":$(zone-where)" && EXTRA_PROMPT_COLOUR=${PURPLE} # bit of Solaris prompt magic
-[ $(uname | grep Linux) ] && [ -z "$PRIV_DESKTOP" ] && EXTRA_PROMPT=":$(lsb_release -a | grep Release | awk '{print $2}')" && EXTRA_PROMPT_COLOUR=${RED} # Putting the RHEL version in the prompt.
+[ $(uname | grep Linux) ] && [ -z "$PRIV_DESKTOP" ] && EXTRA_PROMPT=":$(lsb_release -a | grep Distributor | awk '{print $3}' | cut -c 1)$(lsb_release -a | grep Release | awk '{print $2}' | cut -c 1-3)" && EXTRA_PROMPT_COLOUR=${RED} # Putting the RHEL version in the prompt.
 
 if [ ! -z "$PRIV_DESKTOP" ]; then
    PS1="${TITLEBAR}[${ID_COLOUR}\u${NO_COLOUR}@${STR_COLOUR}\h${EXTRA_PROMPT_COLOUR}$EXTRA_PROMPT${NO_COLOUR}]"'$(git_indicator)$(task_indicator)'"${NO_COLOUR}\w\$ "

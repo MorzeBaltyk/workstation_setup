@@ -1,0 +1,18 @@
+############################################################################
+#      Portable Solaris functions and aliases
+############################################################################
+
+function clsvc() ( # This function shows the status of all resources whose resource group matches the command line regex
+         clrg list | ${E_GREP} -i $1 | xargs -i clrs status -g {} | grep -v Resource | grep -v '^$'
+)
+
+function clrestart() ( # This function restarts one resource 
+         clrs disable $1 && clrs enable $1
+)
+
+if [ -x /usr/cluster/bin/clnode ]; then
+   alias clzpools="for node in $(clnode list); do echo zpools in $node; ssh $node zpool list; done"
+fi
+
+alias clrsnaps='zfs list -t snapshot -o name -H | while read a; do echo Destroying $a; zfs destroy $a; done'
+
