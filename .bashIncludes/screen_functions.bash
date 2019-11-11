@@ -35,8 +35,10 @@ fi
 function screentitle() { echo -ne "\033k${1}\033\\" ; } # legacy support 
 
 function s() {
+   #No more usefull, we don't copy the bash_profile.tmp
    if [ `echo $@ | grep -v '\-sc'` ]; then
-      scr ssh "$@" -ttl ${SERV_ACC} exec bash --rcfile /tmp/bash_profile.tmp -i 
+      #scr ssh "$@" -ttl ${SERV_ACC} exec bash --rcfile /tmp/bash_profile.tmp -i 
+      scr ssh "$@" -ttl ${SERV_ACC} 
    else
       scr ssh "${SERV_ACC}@$@"
    fi
@@ -52,7 +54,7 @@ function z() {
 [ $TERM == screen ] && screentitle `hostname` # To make sure I get the hostname after connecting to a LH
 
 function vi() {
-   if [ `hostname` == $PRIV_DESKTOP ]
+   if [ ${HOSTNAME%%.*} == $PRIV_DESKTOP ]
    then  
       scr vim $*
    else

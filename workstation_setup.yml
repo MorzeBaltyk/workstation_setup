@@ -23,6 +23,8 @@
       - task
       - fping
       - sysstat
+      - expect
+      - jq
       - strace
       - screen
       - rdesktop

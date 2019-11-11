@@ -45,7 +45,7 @@ esac
 ############################################################################
 #      Common vars
 ############################################################################
-
+export SERV_ACC=carochr #Need to put it here as well for distant connexion
 export PAGER=less
 export EDITOR=vim
 export MANPATH=/usr/man:/usr/openwin/share/man:/usr/dt/man:/usr/opt/SUNWmd/man:/opt/SUNWatm/man:/usr/local/man:/usr/local/teTeX/man:/usr/local/ecb-doc/man:/usr/sfw/share/man:/usr/local/rrdtool/man:/usr/cluster/man:/opt/SUNWcluster/man:/usr/share/man:
@@ -65,6 +65,7 @@ alias lsf='compgen -A function'
 alias vib='vim ~/.bash_profile'
 alias vibr='vim ~/.bashrc'
 alias lsopen='lsof +aL1'
+alias win="'/usr/bin/rdesktop -d publications -x 0x80 -P  -a 32 -g 1920x1024 -u carochr opdt218'"
 #Local aliases for myself.
 alias path='echo $PATH'
 alias pycharm='~/Tools/pycharm/latest/bin/pycharm.sh &'
@@ -83,14 +84,19 @@ echo "scale=1; $(df -k | egrep -e '(/dev/|rpool)' | grep -v /fd | grep -v cdrom 
 ############################################################################
 ## On Local Desktop ; but HomeDir Shared
 #if [ ! -z "$PRIV_DESKTOP" ]; then
-   for FILE in ~/.privIncludes/*.bash; do
+   for FILE in /home/$SERV_ACC/.privIncludes/*.bash; do
       source $FILE
    done
-   for FILE in ~/.bashIncludes/*.bash; do
+   for FILE in /home/$SERV_ACC/.bashIncludes/*.bash; do
       source $FILE
    done
 #fi
 
+############################################################################
+#	PATH
+############################################################################
+addpath /sbin after 
+addpath /home/admin/bin after
 
 ############################################################################
 #      PROMPT 
@@ -141,7 +147,7 @@ EXTRA_PROMPT_COLOUR=${STR_COLOUR}
 [ `zone-where 2>/dev/null` ] && EXTRA_PROMPT=":$(zone-where)" && EXTRA_PROMPT_COLOUR=${PURPLE} # bit of Solaris prompt magic
 [ $(uname | grep Linux) ] && [ -z "$PRIV_DESKTOP" ] && EXTRA_PROMPT=":$(lsb_release -a | grep Distributor | awk '{print $3}' | cut -c 1)$(lsb_release -a | grep Release | awk '{print $2}' | cut -c 1-3)" && EXTRA_PROMPT_COLOUR=${RED} # Putting the RHEL version in the prompt.
 
-if [ ! -z "$PRIV_DESKTOP" ]; then
+if [[ ! -z "$PRIV_DESKTOP" || $(whoami) == $SERV_ACC ]]; then
    PS1="${TITLEBAR}[${ID_COLOUR}\u${NO_COLOUR}@${STR_COLOUR}\h${EXTRA_PROMPT_COLOUR}$EXTRA_PROMPT${NO_COLOUR}]"'$(git_indicator)$(task_indicator)'"${NO_COLOUR}\w\$ "
 else
    PS1="${TITLEBAR}[${ID_COLOUR}\u${NO_COLOUR}@${STR_COLOUR}\h${EXTRA_PROMPT_COLOUR}$EXTRA_PROMPT${NO_COLOUR}]\w${NO_COLOUR}\$ "
