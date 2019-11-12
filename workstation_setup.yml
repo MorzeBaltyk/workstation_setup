@@ -69,13 +69,6 @@
       state: link
     tags: bash
 
-  - name: setup scripts dir
-    file:
-      src: ~/git/workstation_setup/scripts
-      dest: ~/scripts
-      state: link
-    tags: bash
-
   - name: delete .bashrc if it exists
     file:
       dest: ~/.bashrc
@@ -92,7 +85,7 @@
     - "# HomeDir shared with NFS, so a double check is necessary"
     - "if [ ${HOSTNAME%%.*} == 'digiop3' ]"
     - "then"
-    - "  export SCRIPTS=~/scripts"
+    - "  export BIN=~/git/workstation_setup/bin"
     - "  export PRIV_DESKTOP={{ansible_hostname}}"
     - "  export SERV_ACC={{ansible_user_id}}  #Change this to the account you use to login to other hosts if your not your local username (e.g. root)"
     - "  shopt -q login_shell || source ~/.bash_profile  #We don't want to end up in an infinite loop"
