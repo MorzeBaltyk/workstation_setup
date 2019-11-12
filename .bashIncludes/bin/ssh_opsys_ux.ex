@@ -9,5 +9,4 @@ expect "*?assword:*"
 send -- "$pass\r"
 send -- "exec bash\r"
 send -- ". ~carochr/.bash_profile 2> /dev/null \r"
-send -- "\r"
 interact

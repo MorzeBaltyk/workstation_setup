@@ -2,7 +2,7 @@ function sr ()
 {
 # connect to remote host as root
 validatehost $1 || return 1
-ssh_opsys_ux.ex $@
+ssh_opsys_ux.ex $@ 
 }
 
 function sre ()

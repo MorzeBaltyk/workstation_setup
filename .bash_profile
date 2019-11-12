@@ -97,6 +97,7 @@ echo "scale=1; $(df -k | egrep -e '(/dev/|rpool)' | grep -v /fd | grep -v cdrom 
 ############################################################################
 addpath /sbin after 
 addpath /home/admin/bin after
+addpath ~/git/workstation_setup/.bashIncludes/bin after
 
 ############################################################################
 #      PROMPT 
