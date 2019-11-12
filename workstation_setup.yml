@@ -31,6 +31,7 @@
       - vim
       - prettyping
       - geany
+      - terminator
       state: latest
     become: true
     tags: pkgs
