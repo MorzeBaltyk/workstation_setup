@@ -21,9 +21,9 @@ else
    screen -X chdir $wd
    # Ask screen to run the command
    if [ $cmd == "ssh" ]; then
-      screen -t ""${1##*@}"" ${SCRIPTS}/screen_ssh.sh $*
+      screen -t ""${1##*@}"" ${BIN}/screen_ssh.sh $*
    elif [ $cmd == "console" ]; then
-      screen -t ""${1##*@}-CONS"" ${SCRIPTS}/screen_ssh.sh -tt ${SERV_ACC}@${CONSOLE_SRV} console $* 
+      screen -t ""${1##*@}-CONS"" ${BIN}/screen_ssh.sh -tt ${SERV_ACC}@${CONSOLE_SRV} console $* 
    else
       screen -t "$cmd $*" $cmd $*
    fi
