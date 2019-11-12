@@ -97,7 +97,7 @@ echo "scale=1; $(df -k | egrep -e '(/dev/|rpool)' | grep -v /fd | grep -v cdrom 
 ############################################################################
 addpath /sbin after 
 addpath /home/admin/bin after
-addpath ~/git/workstation_setup/.bashIncludes/bin after
+addpath ~/git/workstation_setup/bin after
 
 ############################################################################
 #      PROMPT 
@@ -115,6 +115,7 @@ LIGHT_YELLOW="\[\033[1;33m\]"
 PURPLE="\[\033[0;35m\]"
 LIGHT_PURPLE="\[\033[1;35m\]"
 
+# COLORS Applied to root/ or Not and my desktop or not
 if [ $($P_ID -u) -eq 0 ];
 then
    if [ ! -z "$PRIV_DESKTOP" ]
@@ -123,12 +124,12 @@ then
    else
       if [ $(uname | grep Linux) ]
       then
-         STR_COLOUR=$LIGHT_RED
+         STR_COLOUR=$RED
       else
          STR_COLOUR=$LIGHT_PURPLE
 	   fi
    fi
-	ID_COLOUR=$LIGHT_CYAN
+   ID_COLOUR=$RED
 else
    if [ ! -z "$PRIV_DESKTOP" ]
    then
@@ -146,7 +147,8 @@ fi
 
 EXTRA_PROMPT_COLOUR=${STR_COLOUR}
 [ `zone-where 2>/dev/null` ] && EXTRA_PROMPT=":$(zone-where)" && EXTRA_PROMPT_COLOUR=${PURPLE} # bit of Solaris prompt magic
-[ $(uname | grep Linux) ] && [ -z "$PRIV_DESKTOP" ] && EXTRA_PROMPT=":$(lsb_release -a | grep Distributor | awk '{print $3}' | cut -c 1)$(lsb_release -a | grep Release | awk '{print $2}' | cut -c 1-3)" && EXTRA_PROMPT_COLOUR=${RED} # Putting the RHEL version in the prompt.
+[ $(uname | grep Linux) ] && [ -z "$PRIV_DESKTOP" ] && EXTRA_PROMPT=":$(lsb_release -a | grep Distributor | awk '{print $3}' | cut -c 1)$(lsb_release -a | grep Release | awk '{print $2}' | cut -c 1-3)" && EXTRA_PROMPT_COLOUR=${RED} 
+# Putting the RHEL version in the prompt.
 
 if [[ ! -z "$PRIV_DESKTOP" || $(whoami) == $SERV_ACC ]]; then
    PS1="${TITLEBAR}[${ID_COLOUR}\u${NO_COLOUR}@${STR_COLOUR}\h${EXTRA_PROMPT_COLOUR}$EXTRA_PROMPT${NO_COLOUR}]"'$(git_indicator)$(task_indicator)'"${NO_COLOUR}\w\$ "

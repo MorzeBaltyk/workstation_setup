@@ -12,7 +12,8 @@ spawn -noecho ssh $server -t sudo -i
 match_max  1000
 expect -re ".*assword.*"
 send -- "$pass\r"
-#stty echo
+stty echo
 expect "#"
-send -- "\r"
+#send -- "\r"
+send -- ". ~carochr/.bash_profile 2> /dev/null \r"
 interact 
