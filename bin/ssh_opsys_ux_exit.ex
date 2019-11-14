@@ -9,7 +9,7 @@ match_max 100000
 expect "*?assword:*"
 send -- "$pass\r"
 send -- "exec bash\r"
-send -- "$cmd\r"
 send -- ". ~carochr/.bash_profile 2> /dev/null \r"
+send -- "$cmd\r"
 send -- "exit\r"
 interact

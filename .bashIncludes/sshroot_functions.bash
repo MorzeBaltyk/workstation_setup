@@ -18,6 +18,26 @@ case $myOS in
 esac
 }
 
+function sre ()
+{
+# getOS use check_input and validatehost
+myOS=$(getOS $1)
+
+case $myOS in
+  Linux*)
+          ssh_root_linux_exec $@
+          ;;
+
+  SunOS*)
+          ssh_root_solaris_exec_filtered $@
+          ;;
+
+  *)
+          echo "Functions was not set for this OS" && return 1
+          ;;
+esac
+}
+
 function ssh_root_solaris ()
 {
 # connect to remote host as root
@@ -36,7 +56,7 @@ function ssh_root_solaris_exec_filtered ()
 {
 # execute sre cmd and remove first 5 lines as well as the last 2 lines of the output
 validatehost $1 || return 1
-sre $@ | sed '1,5d;$d'|sed '$d'
+ssh_root_solaris_exec $@ | sed '1,5d;$d'|sed '$d'
 }
 
 function ssh_root_linux ()
