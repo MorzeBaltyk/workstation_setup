@@ -32,6 +32,7 @@
       - prettyping
       - geany
       - terminator
+      - python3-black
       state: latest
     become: true
     tags: pkgs

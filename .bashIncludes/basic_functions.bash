@@ -7,7 +7,25 @@ function check_input ()
         fi
 } 
 
-# Check if host exist 
+function no_more_than_one ()
+{
+	if [ $# -gt 1 ];
+	then
+		echo "Please, Only One Arguments"
+	        return 1	
+	fi
+}
+
+#Usefull for the function sr to check which OS before
+function getOS ()
+{ 
+	no_more_than_one $@ || return 1
+	validatehost $@ || return 1
+	whichOS=$(ssh $@ "uname") 
+	echo $whichOS 
+}
+
+# Check if host exist and answer to ping 
 function validatehost () 
 { 
     local MYHOST;
@@ -18,7 +36,7 @@ function validatehost ()
         GETENTHOST=`echo $GETENTINFO | awk '{print $2}'| cut -d. -f1`;
         if [ "$2" == "-v" ]; then
             if [ "$MYHOST" != "$GETENTHOST" ]; then
-                msg "$MYHOST is an alias for $GETENTHOST";
+                echo "$MYHOST is an alias for $GETENTHOST";
             fi;
             echo $GETENTHOST;
         fi;  
@@ -41,7 +59,7 @@ function addpath () {
   [ $# -eq 0 ] && return 1
   case ":${PATH}:" in
     *:"$1":*)
-        ;;
+     ;;
     *)
     if [ -d "$1" ]; then
        if [ "$2" = "after" ] ; then
@@ -50,6 +68,7 @@ function addpath () {
            PATH=$1:$PATH
        fi
     fi
+     ;;
   esac
 }
 
