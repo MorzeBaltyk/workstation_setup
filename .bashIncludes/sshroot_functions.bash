@@ -1,15 +1,25 @@
 function sr ()
 {
 # getOS use check_input and validatehost
-myOS=$(getOS $@)
+myOS=$(getOS $1)
 
 case $myOS in 
   Linux*)
-	  ssh_root_linux $1 
+	  if [ $# -gt 1 ]
+	  then
+		  ssh_root_linux_exec $@
+	  else 
+		  ssh_root_linux $1 
+	  fi
 	  ;;
 	
   SunOS*)
-	  ssh_root_solaris $1 
+	  if [ $# -gt 1 ]
+	  then
+		  ssh_root_solaris_exec_filtered $@
+	  else 
+		  ssh_root_solaris $1 
+	  fi
 	  ;;
 
   *)
