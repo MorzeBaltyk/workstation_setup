@@ -33,6 +33,7 @@
       - geany
       - terminator
       - python3-black
+      - python3-pandas
       state: latest
     become: true
     tags: pkgs

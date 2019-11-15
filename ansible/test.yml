@@ -1,0 +1,14 @@
+
+ - hosts: localhost 
+   gather_facts: false
+
+   
+   tasks:
+   - name: Upgrade PIP before
+     raw: ""
+
+   - name: Installing Python Modules with pip
+     pip:
+       name: 
+       - NumPy 
+       state: present 

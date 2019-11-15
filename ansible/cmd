@@ -1,0 +1,2 @@
+getcmdb linuxvm | grep -v NAME | awk -F ";" '{print $1}' | sort -u | xargs fping 2> /dev/null | grep -c alive
+getcmdb zone | grep -v ZONE | awk -F ";" '{print $1}' | sort -u | xargs fping 2> /dev/null | grep -c alive
