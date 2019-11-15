@@ -70,37 +70,47 @@
       state: link
     tags: bash
 
-  - name: delete .bashrc if it exists
+  - name: setup .bashrc
     file:
+      src: ~/git/workstation_setup/.bashrc
       dest: ~/.bashrc
-      state: absent
+      state: link
     tags: bash
 
-  - name: setup basic vars in new .bashrc
-    lineinfile:
-      path: ~/.bashrc
-      line: "{{ item }}"
-      create: true
-    loop:
-    - "# Bashrc should be only for local Desktop,"
-    - "# HomeDir shared with NFS, so a double check is necessary"
-    - "if [ ${HOSTNAME%%.*} == 'digiop3' ]"
-    - "then"
-    - "  export BIN=~/git/workstation_setup/bin"
-    - "  export PRIV_DESKTOP={{ansible_hostname}}"
-    - "  export SERV_ACC={{ansible_user_id}}  #Change this to the account you use to login to other hosts if your not your local username (e.g. root)"
-    - "  shopt -q login_shell || source ~/.bash_profile  #We don't want to end up in an infinite loop"
-    - "  [[ -r ~/.bash_completion ]] && source ~/.bash_completion  #If you have a bash_completion source, put it here"
-    - "  [[ -f /usr/bin/exa ]] && alias ls='exa --git'  #Uncomment to use exa instead of ls"
-    - "  [[ -f /usr/bin/exa ]] && alias ll='exa --git -larsold'  #Uncomment to use exa instead of ls"
-    - "  #alias cd='pushd >/dev/null'  #Uncomment to use popd instead of cd"
-    - "  [[ -f /usr/bin/prettyping ]] && alias ping='prettyping'"
-    - "  [[ -f /usr/bin/vimdiff ]] && alias diff='vimdiff'"
-    - "  #alias top='htop'  #Commented in .bashrc if you're not using screenFunctions.bash"
-    - "  alias rsync='rsync --info=progress2'"
-    - "  [[ -f /usr/bin/bat ]] && alias cat='bat'"
-    - "fi"
-    tags: bash
+    # Make it more simple with above task
+    # ###################################
+    #
+    #  - name: delete .bashrc if it exists
+    #file:
+    #  dest: ~/.bashrc
+    #  state: absent
+    #tags: bash
+    #
+    #  - name: setup basic vars in new .bashrc
+    #lineinfile:
+    #  path: ~/.bashrc
+    #  line: "{{ item }}"
+    #  create: true
+    #loop:
+    #- "# Bashrc should be only for local Desktop,"
+    #- "# HomeDir shared with NFS, so a double check is necessary"
+    #- "if [ ${HOSTNAME%%.*} == 'digiop3' ]"
+    #- "then"
+    #- "  export BIN=~/git/workstation_setup/bin"
+    #- "  export PRIV_DESKTOP={{ansible_hostname}}"
+    #- "  export SERV_ACC={{ansible_user_id}}  #Change this to the account you use to login to other hosts if your not your local username (e.g. root)"
+    #- "  shopt -q login_shell || source ~/.bash_profile  #We don't want to end up in an infinite loop"
+    #- "  [[ -r ~/.bash_completion ]] && source ~/.bash_completion  #If you have a bash_completion source, put it here"
+    #- "  [[ -f /usr/bin/exa ]] && alias ls='exa --git'  #Uncomment to use exa instead of ls"
+    #- "  [[ -f /usr/bin/exa ]] && alias ll='exa --git -larsold'  #Uncomment to use exa instead of ls"
+    #- "  #alias cd='pushd >/dev/null'  #Uncomment to use popd instead of cd"
+    #- "  [[ -f /usr/bin/prettyping ]] && alias ping='prettyping'"
+    #- "  [[ -f /usr/bin/vimdiff ]] && alias diff='vimdiff'"
+    #- "  #alias top='htop'  #Commented in .bashrc if you're not using screenFunctions.bash"
+    #- "  alias rsync='rsync --info=progress2'"
+    #- "  [[ -f /usr/bin/bat ]] && alias cat='bat'"
+    #- "fi"
+    #tags: bash
 
 
   - name: setup .screenrc
