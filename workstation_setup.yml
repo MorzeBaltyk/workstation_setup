@@ -34,6 +34,7 @@
       - terminator
       - python3-black
       - python3-pandas
+      - keepassxc
       state: latest
     become: true
     tags: pkgs
