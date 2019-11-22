@@ -96,6 +96,14 @@ function msg_ok_bandeau ()
 	echo -e "${BKG_GREEN}${MSG}${NC}"
 }
 
+function msg_title ()
+{
+  local width=80
+  msg_separator $width
+  msg_line $width "" c $@
+  msg_separator $width
+}
+
 ############## Misc ####################
 msg_separator()
 {
