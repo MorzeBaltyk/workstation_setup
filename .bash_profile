@@ -102,52 +102,52 @@ addpath ~/git/workstation_setup/bin after
 ############################################################################
 #      PROMPT 
 ############################################################################
-RED="\[\033[0;31m\]"
-GREEN="\[\033[0;32m\]"
-LIGHT_GREEN="\[\033[1;32m\]"
-LIGHT_RED="\[\033[1;31m\]"
-WHITE="\[\033[1;37m\]"
+pRED="\[\033[0;31m\]"
+pGREEN="\[\033[0;32m\]"
+pLIGHT_GREEN="\[\033[1;32m\]"
+pLIGHT_RED="\[\033[1;31m\]"
+pWHITE="\[\033[1;37m\]"
+pCYAN="\[\033[0;36m\]"
+pYELLOW="\[\033[0;33m\]"
+pLIGHT_CYAN="\[\033[1;36m\]"
+pLIGHT_YELLOW="\[\033[1;33m\]"
+pPURPLE="\[\033[0;35m\]"
+pLIGHT_PURPLE="\[\033[1;35m\]"
 NO_COLOUR="\[\033[0m\]"
-CYAN="\[\033[0;36m\]"
-YELLOW="\[\033[0;33m\]"
-LIGHT_CYAN="\[\033[1;36m\]"
-LIGHT_YELLOW="\[\033[1;33m\]"
-PURPLE="\[\033[0;35m\]"
-LIGHT_PURPLE="\[\033[1;35m\]"
 
 # COLORS Applied to root/ or Not and my desktop or not
 if [ $($P_ID -u) -eq 0 ];
 then
    if [ ! -z "$PRIV_DESKTOP" ]
    then
-      STR_COLOUR=$LIGHT_GREEN
+      STR_COLOUR=$pLIGHT_GREEN
    else
       if [ $(uname | grep Linux) ]
       then
-         STR_COLOUR=$RED
+         STR_COLOUR=$pRED
       else
-         STR_COLOUR=$LIGHT_PURPLE
+         STR_COLOUR=$pLIGHT_PURPLE
 	   fi
    fi
-   ID_COLOUR=$RED
+   ID_COLOUR=$pRED
 else
    if [ ! -z "$PRIV_DESKTOP" ]
    then
-      STR_COLOUR=$GREEN
+      STR_COLOUR=$pGREEN
    else
       if [ $(uname | grep Linux) ]
       then
-         STR_COLOUR=$RED
+         STR_COLOUR=$pRED
       else
-         STR_COLOUR=$PURPLE
+         STR_COLOUR=$pPURPLE
       fi
    fi
-   ID_COLOUR=$CYAN
+   ID_COLOUR=$pCYAN
 fi
 
 EXTRA_PROMPT_COLOUR=${STR_COLOUR}
-[ `zone-where 2>/dev/null` ] && EXTRA_PROMPT=":$(zone-where)" && EXTRA_PROMPT_COLOUR=${PURPLE} # bit of Solaris prompt magic
-[ $(uname | grep Linux) ] && [ -z "$PRIV_DESKTOP" ] && EXTRA_PROMPT=":$(lsb_release -a | grep Distributor | awk '{print $3}' | cut -c 1)$(lsb_release -a | grep Release | awk '{print $2}' | cut -c 1-3)" && EXTRA_PROMPT_COLOUR=${RED} 
+[ `zone-where 2>/dev/null` ] && EXTRA_PROMPT=":$(zone-where)" && EXTRA_PROMPT_COLOUR=${pPURPLE} # bit of Solaris prompt magic
+[ $(uname | grep Linux) ] && [ -z "$PRIV_DESKTOP" ] && EXTRA_PROMPT=":$(lsb_release -a | grep Distributor | awk '{print $3}' | cut -c 1)$(lsb_release -a | grep Release | awk '{print $2}' | cut -c 1-3)" && EXTRA_PROMPT_COLOUR=${pRED} 
 # Putting the RHEL version in the prompt.
 
 if [[ ! -z "$PRIV_DESKTOP" || $(whoami) == $SERV_ACC ]]; then

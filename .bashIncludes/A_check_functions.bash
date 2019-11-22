@@ -1,28 +1,25 @@
 function check_input () 
 {
-        if [ $# -eq 0 ];
-        then
-                echo "Please Provide Arguments"
-                return 1
-        fi
+if [ $# -eq 0 ];then
+   msg_error "Please Provide Arguments"
+   return 1
+fi
 } 
 
 function no_more_than_one ()
 {
-	if [ $# -gt 1 ];
-	then
-		echo "Please, Only One Arguments"
-	        return 1	
-	fi
+if [ $# -gt 1 ];then
+   msg_error "Please, Only One Argument"
+   return 1	
+fi
 }
 
-#Usefull for the function sr to check which OS before
-function getOS ()
-{ 
-	no_more_than_one $@ || return 1
-	validatehost $@ || return 1
-	whichOS=$(ssh $@ "uname") 
-	echo $whichOS 
+function check_file ()
+{
+if [ ! -f "$1" ]; then
+   msg_error "File "$1" not found, EXIT"
+   return 1
+fi
 }
 
 # Check if host exist and answer to ping 
@@ -54,21 +51,16 @@ function validatehost ()
 }
 
 
-# Define additional dirs in the PATH
-function addpath () {
-  [ $# -eq 0 ] && return 1
-  case ":${PATH}:" in
-    *:"$1":*)
-     ;;
-    *)
-    if [ -d "$1" ]; then
-       if [ "$2" = "after" ] ; then
-           PATH=$PATH:$1
-       else
-           PATH=$1:$PATH
-       fi
-    fi
-     ;;
-  esac
+############ Confirmation #############
+function confirm_execution ()
+{
+  local MSG
+  MSG=${@:-"Confirm execution"}
+  read -p "$(msg_warning) ${MSG} [yes no]: " ans
+  c=`echo $ans | awk '{print substr(tolower($0),0,1)}'`
+  if [ "$c" != "y" ]; then
+      msg_error "Execution cancelled"
+      return 1
+  fi
 }
 
