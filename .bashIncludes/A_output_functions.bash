@@ -47,27 +47,27 @@ function msg ()
 
 function msg_error ()
 {
-    echo -e "[${LIGHT_RED}!${NC}]${LIGHT_RED}ERROR:${NC} $@"
+    echo -e "[${LIGHT_RED}!${NC}]${LIGHT_RED}ERROR${NC}: $@"
 }
 
 function msg_warning ()
 {
-    echo -e "[${LIGHT_YELLOW}=${NC}]${LIGHT_YELLOW}WARN:${NC} $@"
+    echo -e "[${LIGHT_YELLOW}=${NC}]${LIGHT_YELLOW}WARN${NC}: $@"
 }
 
 function msg_ok ()
 {
-    echo -e "[${LIGHT_GREEN}v${NC}]${LIGHT_GREEN}OK:${NC} $@"
+    echo -e "[${LIGHT_GREEN}v${NC}]${LIGHT_GREEN}OK${NC}: $@"
 }
 
 function msg_help ()
 {
-    echo -e "[${LIGHT_CYAN}?${NC}]${LIGHT_CYAN}USAGE:${NC} $@"
+    echo -e "[${LIGHT_CYAN}?${NC}]${LIGHT_CYAN}USAGE${NC}: $@"
 }
 
 function msg_info ()
 {
-    echo -e "[${LIGHT_GREY}*${NC}]${LIGHT_GREY}INFO:${NC} $@"
+    echo -e "[${LIGHT_GREY}*${NC}]${LIGHT_GREY}INFO${NC}: $@"
 }
 
 function msg_comment ()

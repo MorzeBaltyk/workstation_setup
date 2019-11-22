@@ -23,7 +23,7 @@ case $myOS in
 	  ;;
 
   *)
-	  echo "Functions was not set for this OS" && return 1
+	  msg_error "Functions was not set for this OS" && return 1
 	  ;;
 esac
 }
@@ -43,7 +43,7 @@ case $myOS in
           ;;
 
   *)
-          echo "Functions was not set for this OS" && return 1
+          msg_error "Functions was not set for this OS" && return 1
           ;;
 esac
 }

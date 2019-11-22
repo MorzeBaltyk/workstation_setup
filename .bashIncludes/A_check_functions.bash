@@ -43,10 +43,10 @@ function validatehost ()
             ping -c1 $MYHOST -w1 > /dev/null;
         fi;
         if [ $? -ne 0 ]; then
-            echo "Host \"$MYHOST\" is not responding" && return 1;
+            msg_warning "Host \"$MYHOST\" is not responding" && return 1;
         fi;
     else
-        [ "$2" != "-q" ] && echo "Host \"$MYHOST\" is unknown" && return 1;
+        [ "$2" != "-q" ] && msg_error "Host \"$MYHOST\" is unknown" && return 1;
     fi
 }
 
@@ -56,11 +56,13 @@ function confirm_execution ()
 {
   local MSG
   MSG=${@:-"Confirm execution"}
-  read -p "$(msg_warning) ${MSG} [yes no]: " ans
+  read -p "$(msg_warning)${MSG} [yes no]: " ans
   c=`echo $ans | awk '{print substr(tolower($0),0,1)}'`
   if [ "$c" != "y" ]; then
-      msg_error "Execution cancelled"
+      msg_warning "Execution cancelled"
       return 1
+  else
+      msg_ok "Confirmed"
   fi
 }
 
