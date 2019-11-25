@@ -3,8 +3,7 @@ function getOS ()
 { 
         no_more_than_one $@ || return 1
         validatehost $@ || return 1
-        whichOS=$(ssh $@ "uname")
-        echo $whichOS 
+        myOS=$(ssh $@ "uname") 
 }
 
 function get_host_records ()
@@ -12,5 +11,12 @@ function get_host_records ()
     check_input $@ || return 1;
     OneHOST=`echo "$1" | tr '[:upper:]' '[:lower:]'`;
 
+}
+
+function test () 
+{
+myOS=$(getOS $1)
+echo $?
+#if [[ "$(getOS $1)" != 0 ]]; then msg_ok "OK"; else msg_error "NOK"; fi
 }
 

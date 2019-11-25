@@ -1,7 +1,8 @@
 function sr ()
 {
 # getOS use check_input and validatehost
-myOS=$(getOS $1)
+[ $# -eq 0 ] && srlocal && return 0
+getOS $1 || return 1
 
 case $myOS in 
   Linux*)
@@ -26,26 +27,21 @@ case $myOS in
 	  msg_error "Functions was not set for this OS" && return 1
 	  ;;
 esac
+
 }
 
-function sre ()
+function srlocal ()
 {
-# getOS use check_input and validatehost
-myOS=$(getOS $1)
-
-case $myOS in
-  Linux*)
-          ssh_root_linux_exec $@
-          ;;
-
-  SunOS*)
-          ssh_root_solaris_exec_filtered $@
-          ;;
-
-  *)
-          msg_error "Functions was not set for this OS" && return 1
-          ;;
+myOS=$(uname);
+case $myOS in 
+	Linux*)
+		sudo -i 
+		;;
+	SunOS*)
+		su_opsys_ux.ex
+		;;
 esac
+
 }
 
 function ssh_root_solaris ()
