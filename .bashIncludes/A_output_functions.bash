@@ -34,8 +34,11 @@ msg_bandeau "Called by function : msg_bandeau"
 msg_error_bandeau "Called by function : msg_error_bandeau"
 msg_ok_bandeau "Called by function : msg_ok_bandeau"
 
-echo -e "\n Called by function : ${BOLD}msg_separator${NC}"
+echo -e "\nCalled by function : ${BOLD}msg_separator${NC}"
 msg_separator
+echo -e "\n"
+msg_title "Called by function : msg_title"
+
 }
 
 
