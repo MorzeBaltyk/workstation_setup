@@ -35,7 +35,7 @@ function srlocal ()
 myOS=$(uname);
 case $myOS in 
 	Linux*)
-		sudo -i 
+		sudo su - 
 		;;
 	SunOS*)
 		su_opsys_ux.ex

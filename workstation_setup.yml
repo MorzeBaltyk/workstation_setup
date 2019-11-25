@@ -1,6 +1,8 @@
 ---
 
 - hosts: localhost
+  vars:
+    rpmfusion_rpm: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
 
   tasks:
   
@@ -13,8 +15,21 @@
     ignore_errors: true
     tags: os
 
+  - name: Check if RPMfusion already set
+    shell:            /bin/rpm -q --quiet rpmfusion-free-release && echo installed || echo missing
+    args:             
+      warn: false
+    register:         rpmfusion
+    tags: repo
+
+  - name: setup RPMfusion repository
+    command: yum localinstall -y --nogpgcheck {{ rpmfusion_rpm }}
+    when: ansible_distribution == "Fedora" and rpmfusion.stdout == "missing"
+    become: true
+    tags: repo
+
   - name: Install other useful packages
-    dnf:
+    dnf: 
       name: 
       - bat
       - exa
@@ -22,6 +37,7 @@
       - ack
       - task
       - fping
+      - nmap
       - sysstat
       - expect
       - jq
@@ -35,6 +51,10 @@
       - python3-black
       - python3-pandas
       - keepassxc
+      - gkrellm
+      - vlc
+      - gnome-tweaks
+      - gnome-shell
       state: latest
     become: true
     tags: pkgs
