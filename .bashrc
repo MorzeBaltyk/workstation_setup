@@ -14,5 +14,4 @@ then
   #alias top='htop'  #Commented in .bashrc if you're not using screenFunctions.bash
   alias rsync='rsync --info=progress2'
   [[ -f /usr/bin/bat ]] && alias cat='bat'
-
 fi
