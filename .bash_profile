@@ -1,6 +1,7 @@
 # We only load our bashrc for a local session
 [[ -r ~/.bashrc ]] && shopt -q login_shell && . ~/.bashrc
 
+
 ### Fix to load the ${SERV_ACC} profile on other systems with some setup
 # On distant Server
 #if [ -z "$PRIV_DESKTOP" ]
