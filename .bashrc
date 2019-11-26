@@ -2,7 +2,6 @@
 # HomeDir shared with NFS, so a double check is necessary
 if [ ${HOSTNAME%%.*} == 'digiop3' ]
 then
-  export BIN=~/git/workstation_setup/bin
   export PRIV_DESKTOP=digiop3
   export SERV_ACC=carochr  #Change this to the account you use to login to other hosts if your not your local username (e.g. root)
   shopt -q login_shell || source ~/.bash_profile  #We don't want to end up in an infinite loop
@@ -15,4 +14,5 @@ then
   #alias top='htop'  #Commented in .bashrc if you're not using screenFunctions.bash
   alias rsync='rsync --info=progress2'
   [[ -f /usr/bin/bat ]] && alias cat='bat'
+
 fi
