@@ -50,6 +50,7 @@
       - terminator
       - python3-black
       - python3-pandas
+      - python3-dnf
       - keepassxc
       - gkrellm
       - vlc
