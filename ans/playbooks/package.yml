@@ -1,0 +1,35 @@
+---
+
+  - name: Install other useful packages
+    dnf:
+      name:
+      - bat
+      - exa
+      - htop
+      - ack
+      - task
+      - fping
+      - nmap
+      - sysstat
+      - expect
+      - jq
+      - strace
+      - screen
+      - rdesktop
+      - vim
+      - prettyping
+      - geany
+      - terminator
+      - python3-black
+      - python3-pandas
+      - python3-dnf
+      - keepassxc
+      - gkrellm
+      - vlc
+      - gnome-tweaks
+      - gnome-shell
+      state: latest
+    become: true
+    ignore_errors: true
+    tags: pkgs
+
