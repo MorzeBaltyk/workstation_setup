@@ -13,5 +13,5 @@ then
   [[ -f /usr/bin/vimdiff ]] && alias diff='vimdiff'
   #alias top='htop'  #Commented in .bashrc if you're not using screenFunctions.bash
   alias rsync='rsync --info=progress2'
-  [[ -f /usr/bin/bat ]] && alias cat='bat'
+  [[ -f /usr/bin/bat ]] && alias cat='bat -p'
 fi

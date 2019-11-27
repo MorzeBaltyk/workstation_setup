@@ -7,14 +7,27 @@
     register:         rpmfusion
     tags: repo
 
+    # it's RPM package to install a repo  
   - name: setup RPMfusion repository
     vars:
       rpmfusion_rpm: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
     command: yum localinstall -y --nogpgcheck {{ rpmfusion_rpm }}
     when: ansible_distribution == "Fedora" and rpmfusion.stdout == "missing"
+    ignore_errors: true
     become: true
     tags: repo
 
+    # it's Fedora package
+  - name: setup Fedora Workstation Repos
+    dnf:
+      name: 
+      - fedora-workstation-repositories
+      state: present
+    become: true
+    ignore_errors: true
+    tags: repo
+
+    # it's a URL that we set in our /etc/yum.repo.d/ conf 
   - name: setup Google repos
     yum_repository:
       name: Google-chrome
@@ -24,5 +37,5 @@
       gpgcheck: true
       enabled: true
     become: true
-    ignore_error: true
+    ignore_errors: true
     tags: repo
