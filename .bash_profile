@@ -87,7 +87,7 @@ echo "scale=1; $(df -k | egrep -e '(/dev/|rpool)' | grep -v /fd | grep -v cdrom 
    for FILE in /home/$SERV_ACC/.privIncludes/*.bash; do
       source $FILE
    done
-   for FILE in /home/$SERV_ACC/bashIncludes/*.bash; do
+   for FILE in /home/$SERV_ACC/.bashIncludes/*.bash; do
       source $FILE
    done
 #fi
