@@ -1,0 +1,28 @@
+---
+
+  - name: Check if RPMfusion already set
+    shell:            /bin/rpm -q --quiet rpmfusion-free-release && echo installed || echo missing
+    args:
+      warn: false
+    register:         rpmfusion
+    tags: repo
+
+  - name: setup RPMfusion repository
+    vars:
+      rpmfusion_rpm: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+    command: yum localinstall -y --nogpgcheck {{ rpmfusion_rpm }}
+    when: ansible_distribution == "Fedora" and rpmfusion.stdout == "missing"
+    become: true
+    tags: repo
+
+  - name: setup Google repos
+    yum_repository:
+      name: Google-chrome
+      description: Google Repos
+      baseurl: "http://dl.google.com/linux/chrome/rpm/stable/x86_64"
+      gpgkey: "https://dl.google.com/linux/linux_signing_key.pub"
+      gpgcheck: true
+      enabled: true
+    become: true
+    ignore_error: true
+    tags: repo
