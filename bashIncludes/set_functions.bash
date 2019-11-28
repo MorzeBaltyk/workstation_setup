@@ -16,3 +16,17 @@ function addpath () {
   esac
 }
 
+function setproxy() {
+# Those Var are defined in .privInclude
+# Set by default in .bashrc for only local station
+#proxy_server=" "
+#proxy_port=" "
+#proxy_username=
+#proxy_password=
+export {http,https,ftp}_proxy=https://${proxy_username}:${proxy_password}@${proxy_server}:${proxy_port}
+}
+
+function unsetproxy() {
+    unset {http,https,ftp}_proxy
+}
+

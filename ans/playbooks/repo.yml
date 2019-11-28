@@ -7,7 +7,7 @@
     register:         rpmfusion
     tags: repo
 
-    # it's RPM package to install a repo  
+    # A RPM package to install a repo  
   - name: setup RPMfusion repository
     vars:
       rpmfusion_rpm: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
@@ -17,7 +17,7 @@
     become: true
     tags: repo
 
-    # it's Fedora package
+    # A Fedora package
   - name: setup Fedora Workstation Repos
     dnf:
       name: 
@@ -27,7 +27,7 @@
     ignore_errors: true
     tags: repo
 
-    # it's a URL that we set in our /etc/yum.repo.d/ conf 
+    # An URL that we set in our /etc/yum.repo.d/ conf 
   - name: setup Google repos
     yum_repository:
       name: google-chrome
