@@ -37,7 +37,7 @@ GIT_DIRTY=$'[\xF0\x9F\x9A\xA7]' # 🚧
 
 function git_indicator {
    BRANCH=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-   if [ -n "$BRANCH" ]; then
+   if [[ -n "$BRANCH" && $BRANCH != development && $BRANCH != production ]]; then
       DIRTY=$(git status --porcelain --untracked-files=no 2> /dev/null); 
       if [ -n "$DIRTY" ]; then 
          echo -e "${GIT_DIRTY}"
