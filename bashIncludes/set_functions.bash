@@ -23,7 +23,7 @@ function setproxy() {
 #proxy_port=" "
 #proxy_username=
 #proxy_password=
-export {http,https,ftp}_proxy=https://${proxy_username}:${proxy_password}@${proxy_server}:${proxy_port}
+export {http,https,ftp}_proxy=http://${proxy_username}:${proxy_password}@${proxy_server}:${proxy_port}
 }
 
 function unsetproxy() {
