@@ -1,3 +1,14 @@
+function s () {
+   #No more usefull, we don't copy the bash_profile.tmp
+   if [ `echo $@ | grep -v '\-sc'` ]; then
+      #scr ssh "$@" -ttl ${SERV_ACC} exec bash --rcfile /tmp/bash_profile.tmp -i 
+      getOS $1 || return 1
+      scr ssh "$@" -ttl ${SERV_ACC} 
+   else
+      scr ssh "${SERV_ACC}@$@"
+   fi
+}
+
 function sr ()
 {
 # getOS use check_input and validatehost
