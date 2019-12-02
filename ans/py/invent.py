@@ -5,6 +5,7 @@
 import json
 import csv
 import urllib3
+import io
 import sys
 
 #hostLists = {
@@ -24,18 +25,28 @@ import sys
 #for group in ["solaris", "redhat5", "redhat6", "redhat7", "SHS", "DMZ", "LAN"]: hostLists[group] = []  # Initialize empty host lists for every host grouping we want.
 
 # Linux
-req = urllib3.request("http://infra1-pk:8181/modules/mpirequester/lists.php?id=76")
-# allHosts_Json = json.loads(urllib2.urlopen(req).read())
-# allLinux_csv = csv.reader(req)
-print(req.read())
+http = urllib3.PoolManager()
+r = http.request('GET', 'http://infra1-pk:8181/modules/mpirequester/lists.php?id=76')
+data = "".join(map(chr,r.data))
+data = data.split('\n')
+
+
+
+# Print Brutto
+#print(r.data)
+
+# Print Netto
+#data = "".join(map(chr,r.data))
+#data = data.split('\n')
+#for row in data:
+#    print(row)
+
+
+
+#csv_read = csv.reader(r)
+#for line in csv_read:
+#  print(line)
 
 # Solaris
-# req = urllib.request("http://infra1-pk:8181/modules/mpirequester/lists.php?id=26")
-# allClusters_Json = json.loads(urllib2.urlopen(req).read())
-# allSolaris_csv = csv.reader(req)
-
-# data = []
-# for row in datareader:
-#    data.append(row)
-
-#print(data)
+#r = http.request('GET', 'http://infra1-pk:8181/modules/mpirequester/lists.php?id=26')
+#r.data
