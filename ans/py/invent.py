@@ -26,21 +26,35 @@ if __name__ == "__main__":
 #################################################
 hostLists = {
               "_meta"         : { "hostvars": {} }, # See https://docs.ansible.com/ansible/latest/dev_guide/developing_inventory.html#tuning-the-external-inventory-script
-              "all"           : { "children": ['ungrouped', 'solaris', 'linux'] }, # The all group is just a supergroup for all hosts
-              "linux"         : { "children": ['redhat6', 'redhat7'] }, # A supergroup just for Linux hosts
+              "all"           : { "children": ['ungrouped', 'solaris', 'linux', 'linuxvm'] }, # The all group is just a supergroup for all hosts
+              "linux"         : { "children": ['redhat6', 'redhat7'] }, # A supergroup just for Linux Physical hosts
+              "linuxvm"         : { "children": ['redhat6vm', 'redhat7vm'] }, # A supergroup just for Linux VM's
+              "solaris"         : { "children": ['zone', 'primary', 'secondary'] }, # A supergroup just for Linux VM's
               "ungrouped"     : [] # According to the doc, this should be a dict, but ansible thinks it's a host and throws a warning. As a list, it's fine.
 }
 
-for group in ['solaris', 'redhat6', 'redhat7']: hostLists[group] = [] # Initialize empty host lists for every host grouping we want.
+for group in ['zone', 'primary', 'secondary', 'redhat6', 'redhat7', 'redhat6vm', 'redhat7vm']: hostLists[group] = [] # Initialize empty host lists for every host grouping we want.
 
 ##################################################
 
-# Linux
+# Linuxvm
 http = urllib3.PoolManager()
 r = http.request('GET', 'http://infra1-pk:8181/modules/mpirequester/lists.php?id=76')
 data = "".join(map(chr,r.data)) # reformat my input as CSV
 data = data.split('\n')
-all_linux_csv = csv.DictReader(data, delimiter=';')
+all_linuxvm_csv = csv.DictReader(data, delimiter=';')
+
+# Solaris Host
+r = http.request('GET', 'http://infra1-pk:8181/modules/mpirequester/lists.php?id=35')
+data = "".join(map(chr,r.data)) # reformat my input as CSV
+data = data.split('\n')
+all_host_csv = csv.DictReader(data, delimiter=';')
+
+# Solaris Zone
+r = http.request('GET', 'http://infra1-pk:8181/modules/mpirequester/lists.php?id=26')
+data = "".join(map(chr,r.data)) # reformat my input as CSV
+data = data.split('\n')
+all_zone_csv = csv.DictReader(data, delimiter=';')
 
 
 #for row in all_linux_csv:
@@ -49,28 +63,30 @@ all_linux_csv = csv.DictReader(data, delimiter=';')
 # Print Brutto
 #print(r.data)
 
-# Print Netto
-#if sys.argv[1] == '--debug':
-#    for row in all_linux_csv:
-#        print(row)
-
-# Solaris
-#r = http.request('GET', 'http://infra1-pk:8181/modules/mpirequester/lists.php?id=26')
-
-
 ##########################################################
-for hostObj in all_linux_csv:
-  if args.debug: 
-      for row in all_linux_csv: 
-          print(row)
+for hostObj in all_linuxvm_csv:
+  if re.search(r".*el6.*", (hostObj['OS KERNEL PATCH'])): hostLists['redhat6vm'].append(hostObj['NAME']) #print(hostObj['NAME'])
+  if re.search(r".*el7.*", (hostObj['OS KERNEL PATCH'])): hostLists['redhat7vm'].append(hostObj['NAME']) #print(hostObj['NAME'])
 
-  if re.search(r".*el6.*", (hostObj['OS KERNEL PATCH'])): hostLists['redhat6'].append(hostObj['NAME']) #print(hostObj['NAME'])
-  if re.search(r".*el7.*", (hostObj['OS KERNEL PATCH'])): hostLists['redhat7'].append(hostObj['NAME']) #print(hostObj['NAME'])
+for hostObj in all_host_csv:
+  if hostObj['DOMAIN'] == 'Domain 0': hostLists['primary'].append(hostObj['HOST NAME']) #print(hostObj['NAME'])
+  if hostObj['DOMAIN'] == 'Domain 1': hostLists['secondary'].append(hostObj['HOST NAME']) #print(hostObj['NAME'])
+
+for hostObj in all_zone_csv:
+   if hostObj['ZONE NAME'] not in hostLists['zone']: hostLists['zone'].append(hostObj['ZONE NAME']) 
 
 
 #############################################################
 #   Arguments Manadatory for Ansible Compliance
 #############################################################
+if args.debug:
+      for row in all_linuxvm_csv:
+          print(row)
+      for row in all_host_csv:
+          print(row)
+      for row in all_zone_csv:
+          print(row)
+
 if args.list:
     print(json.dumps(hostLists))
 
