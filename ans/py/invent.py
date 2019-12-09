@@ -39,6 +39,8 @@ for group in ['zone', 'primary', 'secondary', 'redhat6', 'redhat7', 'redhat6vm',
 durtyList = {}
 durtyList['redhat6vm'] = []
 durtyList['redhat7vm'] = []
+durtyList['redhat6'] = []
+durtyList['redhat7'] = []
 
 ##################################################
 
@@ -49,9 +51,12 @@ data = "".join(map(chr,r.data)) # reformat my input as CSV
 data = data.split('\n')
 all_linuxvm_csv = csv.DictReader(data, delimiter=';')
 
-#for row in all_linuxvm_csv:
-#    print(row)
-#print(all_linuxvm_csv)
+# Linux Physical
+http = urllib3.PoolManager()
+r = http.request('GET', 'http://infra1-pk:8181/modules/mpirequester/lists.php?id=65')
+data = "".join(map(chr,r.data)) # reformat my input as CSV
+data = data.split('\n')
+all_linux_csv = csv.DictReader(data, delimiter=';')
 
 # Solaris Host
 r = http.request('GET', 'http://infra1-pk:8181/modules/mpirequester/lists.php?id=35')
@@ -70,11 +75,11 @@ all_zone_csv = csv.DictReader(data, delimiter=';')
 ##########################################################
 
 for hostObj in all_linuxvm_csv:
-  if re.search(r".*el6.*", (hostObj['OS KERNEL PATCH'])): durtyList['redhat6vm'].append(hostObj['NAME']) #print(hostObj['NAME'])
-  if re.search(r".*el7.*", (hostObj['OS KERNEL PATCH'])): durtyList['redhat7vm'].append(hostObj['NAME']) #print(hostObj['NAME'])
+  if re.search(r".*el6.*", (hostObj['OS KERNEL PATCH'])): durtyList['redhat6vm'].append(hostObj['NAME']) 
+  if re.search(r".*el7.*", (hostObj['OS KERNEL PATCH'])): durtyList['redhat7vm'].append(hostObj['NAME']) 
 
-rh6vm = list(set(durtyList['redhat6vm']))
-rh7vm = list(set(durtyList['redhat7vm']))
+rh6vm = list(set(durtyList['redhat6vm'])) #Sort uniq
+rh7vm = list(set(durtyList['redhat7vm'])) 
 
 for hostObj in rh6vm:
     ping_test=subprocess.Popen(["fping", "-c", "1", hostObj], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -85,6 +90,25 @@ for hostObj in rh7vm:
     ping_test=subprocess.Popen(["fping", "-c", "1", hostObj], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     stdout, stderr = ping_test.communicate()
     if (ping_test.returncode == 0): hostLists['redhat7vm'].append(hostObj)
+
+
+for hostObj in all_linux_csv:
+  if re.search(r".*el6.*", (hostObj['KERNEL PATCH'])): durtyList['redhat6'].append(hostObj['HOST NAME']) 
+  if re.search(r".*el7.*", (hostObj['KERNEL PATCH'])): durtyList['redhat7'].append(hostObj['HOST NAME']) 
+
+rh6 = list(set(durtyList['redhat6'])) #Sort uniq
+rh7 = list(set(durtyList['redhat7'])) 
+
+for hostObj in rh6:
+    ping_test=subprocess.Popen(["fping", "-c", "1", hostObj], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    stdout, stderr = ping_test.communicate()
+    if (ping_test.returncode == 0): hostLists['redhat6'].append(hostObj)
+
+for hostObj in rh7:
+    ping_test=subprocess.Popen(["fping", "-c", "1", hostObj], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    stdout, stderr = ping_test.communicate()
+    if (ping_test.returncode == 0): hostLists['redhat7'].append(hostObj)
+
 
 for hostObj in all_host_csv:
   if hostObj['DOMAIN'] == 'Domain 0': hostLists['primary'].append(hostObj['HOST NAME']) #print(hostObj['NAME'])
@@ -100,12 +124,12 @@ for hostObj in all_zone_csv:
 if args.debug:
     for row in all_linuxvm_csv:
         print(row)
+      #for row1 in all_linux_csv:
+      #    print(row1)
       #for row2 in all_host_csv:
       #    print(row2)
       #for row3 in all_zone_csv:
       #    print(row3)
-      #for row4 in hostLists_uniq:
-      #    print(row4)
 
 if args.list:
     print(json.dumps(hostLists))
