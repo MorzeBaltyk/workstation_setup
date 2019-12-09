@@ -11,7 +11,7 @@ import os
 import subprocess
 import socket
 import argparse
-
+import pandas
 
 def parseArgs(): # Function which parses the command-line arguments we expect.
    parser = argparse.ArgumentParser() # We uses the argparse library (https://docs.python.org/3/library/argparse.html)
@@ -22,6 +22,7 @@ def parseArgs(): # Function which parses the command-line arguments we expect.
 
 if __name__ == "__main__":
    args = parseArgs()
+
 
 #################################################
 hostLists = {
@@ -35,6 +36,10 @@ hostLists = {
 
 for group in ['zone', 'primary', 'secondary', 'redhat6', 'redhat7', 'redhat6vm', 'redhat7vm']: hostLists[group] = [] # Initialize empty host lists for every host grouping we want.
 
+durtyList = {}
+durtyList['redhat6vm'] = []
+durtyList['redhat7vm'] = []
+
 ##################################################
 
 # Linuxvm
@@ -43,6 +48,10 @@ r = http.request('GET', 'http://infra1-pk:8181/modules/mpirequester/lists.php?id
 data = "".join(map(chr,r.data)) # reformat my input as CSV
 data = data.split('\n')
 all_linuxvm_csv = csv.DictReader(data, delimiter=';')
+
+#for row in all_linuxvm_csv:
+#    print(row)
+#print(all_linuxvm_csv)
 
 # Solaris Host
 r = http.request('GET', 'http://infra1-pk:8181/modules/mpirequester/lists.php?id=35')
@@ -57,35 +66,46 @@ data = data.split('\n')
 all_zone_csv = csv.DictReader(data, delimiter=';')
 
 
-#for row in all_linux_csv:
-#   print(row)
-
-# Print Brutto
-#print(r.data)
 
 ##########################################################
+
 for hostObj in all_linuxvm_csv:
-  if re.search(r".*el6.*", (hostObj['OS KERNEL PATCH'])): hostLists['redhat6vm'].append(hostObj['NAME']) #print(hostObj['NAME'])
-  if re.search(r".*el7.*", (hostObj['OS KERNEL PATCH'])): hostLists['redhat7vm'].append(hostObj['NAME']) #print(hostObj['NAME'])
+  if re.search(r".*el6.*", (hostObj['OS KERNEL PATCH'])): durtyList['redhat6vm'].append(hostObj['NAME']) #print(hostObj['NAME'])
+  if re.search(r".*el7.*", (hostObj['OS KERNEL PATCH'])): durtyList['redhat7vm'].append(hostObj['NAME']) #print(hostObj['NAME'])
+
+rh6vm = list(set(durtyList['redhat6vm']))
+rh7vm = list(set(durtyList['redhat7vm']))
+
+for hostObj in rh6vm:
+    ping_test=subprocess.Popen(["fping", "-c", "1", hostObj], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    stdout, stderr = ping_test.communicate()
+    if (ping_test.returncode == 0): hostLists['redhat6vm'].append(hostObj)
+
+for hostObj in rh7vm:
+    ping_test=subprocess.Popen(["fping", "-c", "1", hostObj], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    stdout, stderr = ping_test.communicate()
+    if (ping_test.returncode == 0): hostLists['redhat7vm'].append(hostObj)
 
 for hostObj in all_host_csv:
   if hostObj['DOMAIN'] == 'Domain 0': hostLists['primary'].append(hostObj['HOST NAME']) #print(hostObj['NAME'])
   if hostObj['DOMAIN'] == 'Domain 1': hostLists['secondary'].append(hostObj['HOST NAME']) #print(hostObj['NAME'])
 
 for hostObj in all_zone_csv:
-   if hostObj['ZONE NAME'] not in hostLists['zone']: hostLists['zone'].append(hostObj['ZONE NAME']) 
+  if hostObj['ZONE NAME'] not in hostLists['zone']: hostLists['zone'].append(hostObj['ZONE NAME']) 
 
 
 #############################################################
-#   Arguments Manadatory for Ansible Compliance
+#     Arguments Manadatory for Ansible Compliance
 #############################################################
 if args.debug:
-      for row in all_linuxvm_csv:
-          print(row)
-      for row in all_host_csv:
-          print(row)
-      for row in all_zone_csv:
-          print(row)
+    for row in all_linuxvm_csv:
+        print(row)
+      #for row2 in all_host_csv:
+      #    print(row2)
+      #for row3 in all_zone_csv:
+      #    print(row3)
+      #for row4 in hostLists_uniq:
+      #    print(row4)
 
 if args.list:
     print(json.dumps(hostLists))
