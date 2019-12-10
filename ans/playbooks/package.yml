@@ -26,6 +26,7 @@
       - keepassxc
       - gkrellm
       - vlc
+      - pv
       - gnome-tweaks
       - gnome-shell
       state: latest
