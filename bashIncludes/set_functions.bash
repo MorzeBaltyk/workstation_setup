@@ -17,16 +17,15 @@ function addpath () {
 }
 
 function setproxy() {
-# Those Var are defined in .privInclude
-# Set by default in .bashrc for only local station
-#proxy_server=" "
-#proxy_port=" "
-#proxy_username=
-#proxy_password=
+# Set by default in .bashrc for only local workstation if .privInclude/setproxy.bash present
+# Those Var are defined in .privInclude/setproxy.bash
+# proxy_server=" "
+# proxy_port=" "
+# proxy_username=
+# proxy_password=
 export {http,https,ftp}_proxy=http://${proxy_username}:${proxy_password}@${proxy_server}:${proxy_port}
 }
 
 function unsetproxy() {
     unset {http,https,ftp}_proxy
 }
-
