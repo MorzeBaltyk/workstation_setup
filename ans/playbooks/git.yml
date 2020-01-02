@@ -7,4 +7,9 @@
       update: no # We just need to make sure it's there
     tags: git
 
-  - name: setup Github account 
+  - name: setup Github account
+      command:
+        argv:
+         - git config --global user.name "MorzeBaltyk"
+         - git config --global user.email "chrisdelart@hotmail.fr"
+    tags: git

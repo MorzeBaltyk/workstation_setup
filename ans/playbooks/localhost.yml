@@ -14,6 +14,20 @@
     - git
     - bash
 
+  - name: create file to setup proxy
+    lineinfile:
+        path: ~/.privIncludes/setproxy.notyet
+        line: "{{ item }}"
+        create: true
+      loop:
+      - "# Complete later in this value the value of those Variables. This Dir is not handle by git."
+      - "# Rename file in setproxy.bash, then source .bash_profile "
+      - "export proxy_username="
+      - "export proxy_password="
+      - "export proxy_server="
+      - "export proxy_port="
+      tags: bash
+
   - name: Validate and create if doesn't exist
     stat : path=~/.hushlogin
     register: validate

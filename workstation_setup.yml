@@ -3,11 +3,10 @@
 - hosts: localhost
 
   tasks:
-
-  - name: Install Repo
+  - name: Setup hostname and needed files
     include: ~/git/workstation_setup/ans/playbooks/localhost.yml
-    
-  - name: Install Repo
+
+  - name: Setup GitHub Repo
     include: ~/git/workstation_setup/ans/playbooks/git.yml
 
   - name: Install Repo
@@ -16,5 +15,10 @@
   - name: Install Packages
     include: ~/git/workstation_setup/ans/playbooks/package.yml
 
+  - name: Replace in .bashrc
+    include: ~/git/workstation_setup/ans/playbooks/replace.yml
+
   - name: Symlink
     include: ~/git/workstation_setup/ans/playbooks/symlink.yml
+
+  # Need to Source .bash_profile at the end

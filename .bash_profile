@@ -6,9 +6,9 @@
 #if [ -z "$PRIV_DESKTOP" ]
 #then
 #   [ $(uname | grep SunOS) ] && [[ -r .profile ]] && source .profile
-#   [[ -r /tmp/corpVars.bash.tmp ]] && source /tmp/corpVars.bash.tmp 
+#   [[ -r /tmp/corpVars.bash.tmp ]] && source /tmp/corpVars.bash.tmp
 #   PATH=${PATH}:/bin:${CORPPATHS}
-#   [ $(uname | grep Linux) ] && [[ -r .bash_profile ]] && source .bash_profile 
+#   [ $(uname | grep Linux) ] && [[ -r .bash_profile ]] && source .bash_profile
 #fi
 
 case $OSTYPE in
@@ -84,10 +84,12 @@ echo "scale=1; $(df -k | egrep -e '(/dev/|rpool)' | grep -v /fd | grep -v cdrom 
 ############################################################################
 ## On Local Desktop ; but HomeDir Shared
 #if [ ! -z "$PRIV_DESKTOP" ]; then
-   for FILE in /home/$SERV_ACC/.privIncludes/*.bash; do
+   #for FILE in /home/$SERV_ACC/.privIncludes/*.bash; do
+   for FILE in ~/.privIncludes/*.bash; do
       source $FILE
    done
-   for FILE in /home/$SERV_ACC/.bashIncludes/*.bash; do
+   #for FILE in /home/$SERV_ACC/.bashIncludes/*.bash; do
+   for FILE in ~/.bashIncludes/*.bash; do
       source $FILE
    done
 #fi
@@ -95,12 +97,12 @@ echo "scale=1; $(df -k | egrep -e '(/dev/|rpool)' | grep -v /fd | grep -v cdrom 
 ############################################################################
 #	PATH
 ############################################################################
-addpath /sbin after 
+addpath /sbin after
 addpath /home/admin/bin after
 addpath ~/git/workstation_setup/bin after
 
 ############################################################################
-#      PROMPT 
+#      PROMPT
 ############################################################################
 pRED="\[\033[0;31m\]"
 pGREEN="\[\033[0;32m\]"
@@ -147,7 +149,7 @@ fi
 
 EXTRA_PROMPT_COLOUR=${STR_COLOUR}
 [ `zone-where 2>/dev/null` ] && EXTRA_PROMPT=":$(zone-where)" && EXTRA_PROMPT_COLOUR=${pPURPLE} # bit of Solaris prompt magic
-[ $(uname | grep Linux) ] && [ -z "$PRIV_DESKTOP" ] && EXTRA_PROMPT=":$(lsb_release -a | grep Distributor | awk '{print $3}' | cut -c 1)$(lsb_release -a | grep Release | awk '{print $2}' | cut -c 1-3)" && EXTRA_PROMPT_COLOUR=${pRED} 
+[ $(uname | grep Linux) ] && [ -z "$PRIV_DESKTOP" ] && EXTRA_PROMPT=":$(lsb_release -a | grep Distributor | awk '{print $3}' | cut -c 1)$(lsb_release -a | grep Release | awk '{print $2}' | cut -c 1-3)" && EXTRA_PROMPT_COLOUR=${pRED}
 # Putting the RHEL version in the prompt.
 
 if [[ ! -z "$PRIV_DESKTOP" || $(whoami) == $SERV_ACC ]]; then
@@ -176,11 +178,11 @@ fi
 export PS1
 
 ############################################################################
-#    Cleanup of my profile of business hosts I'm connecting to 
+#    Cleanup of my profile of business hosts I'm connecting to
 ############################################################################
-# Copy le bash_profile when login to distant server. 
-# In our case of Homedir shared with NFS on all Prod, this is not necessary 
+# Copy le bash_profile when login to distant server.
+# In our case of Homedir shared with NFS on all Prod, this is not necessary
 #if [ -z "$PRIV_DESKTOP" ]
 #then
-#	rm -f /tmp/bash_profile.tmp /tmp/*.bash.tmp 
+#	rm -f /tmp/bash_profile.tmp /tmp/*.bash.tmp
 #fi
