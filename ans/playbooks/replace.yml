@@ -1,6 +1,6 @@
 ---
 
-  - name: replace in .bashrc
+  - name: replace in .bashrc the line where hostname and user is needed
     replace:
     dest: ~/.bashrc
     regexp: "{{ item.regexp }}"
