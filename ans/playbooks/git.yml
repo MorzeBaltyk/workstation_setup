@@ -1,0 +1,10 @@
+---
+
+  - name: setup my workstation setup repo
+    git:
+      repo: https://github.com/MorzeBaltyk/workstation_setup.git
+      dest: ~/git/workstation_setup
+      update: no # We just need to make sure it's there
+    tags: git
+
+  - name: setup Github account 

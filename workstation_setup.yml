@@ -3,33 +3,12 @@
 - hosts: localhost
 
   tasks:
-  - name: setup some expected dirs
-    file:
-      dest: "{{ item }}"
-      state: directory
-    loop:
-    - "~/.privIncludes/"
-    - "~/git/"
-    tags: 
-    - git
-    - bash
 
-  - name: setup my workstation setup repo
-    git:
-      repo: https://github.com/MorzeBaltyk/workstation_setup.git
-      dest: ~/git/workstation_setup
-      update: no # We just need to make sure it's there
-    tags: git
-
-  - name: Validate and create if doesn't exist
-    stat : path=~/.hushlogin
-    register: validate
-    tags: hush
-
-  - file:
-      path: ~/.hushlogin
-      state: '{{ "file" if validate.stat.exists else "touch" }}'
-    tags: hush
+  - name: Install Repo
+    include: ~/git/workstation_setup/ans/playbooks/localhost.yml
+    
+  - name: Install Repo
+    include: ~/git/workstation_setup/ans/playbooks/git.yml
 
   - name: Install Repo
     include: ~/git/workstation_setup/ans/playbooks/repo.yml
