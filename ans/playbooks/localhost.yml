@@ -1,7 +1,8 @@
 ---
 
-  - hostname:
-    name: "{{ choosen_hostname }}"
+  - name: set hostname of the workstation
+    hostname:
+      name: "{{ choosen_hostname }}"
 
   - name: Set timezone to Europe/Amsterdam
     timezone:
