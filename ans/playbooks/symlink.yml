@@ -9,8 +9,8 @@
     ignore_errors: true
     #when: ansible_distribution == "Fedora"
     tags: os
-    
-  - name: setup .bash_profile
+
+  - name: setup .bash_profile link
     file:
       src: ~/git/workstation_setup/.bash_profile
       dest: ~/.bash_profile
@@ -18,21 +18,27 @@
       force: true
     tags: bash
 
-  - name: setup .bashIncludes
+  - name: setup .bashIncludes link
     file:
       src: ~/git/workstation_setup/bashIncludes
       dest: ~/.bashIncludes
       state: link
     tags: bash
 
-  - name: setup .bashrc
+  - name: remove .bashrc
+    file:
+      path: ~/.bashrc
+      state: absent
+    tags: bash
+
+  - name: setup .bashrc link
     file:
       src: ~/git/workstation_setup/.bashrc
       dest: ~/.bashrc
       state: link
     tags: bash
 
-  - name: setup .screenrc
+  - name: setup .screenrc link
     file:
       src: ~/git/workstation_setup/.screenrc
       dest: ~/.screenrc
@@ -44,4 +50,3 @@
       dest: ~/.Screenlogs
       state: directory
     tags: screen
-
