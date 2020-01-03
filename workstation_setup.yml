@@ -1,6 +1,13 @@
 ---
 
 - hosts: localhost
+  vars:
+    choosen_hostname: wodka
+    github_repo_list:
+      https://github.com/MorzeBaltyk/workstation_setup.git: "~/git/workstation_setup"
+      https://github.com/MorzeBaltyk/katops.git: "~/git/katops"
+    git_user_name: "MorzeBaltyk"
+    git_user_email: "chrisdelart@hotmail.fr"
 
   pre_tasks:
   - name: setup some expected dirs
@@ -14,25 +21,18 @@
     - git
     - bash
 
-  - name: setup my workstation setup repo
+  - name: setup all my github repo
     git:
-      repo: https://github.com/MorzeBaltyk/workstation_setup.git
-      dest: ~/git/workstation_setup
+      repo: {{ item.key }}
+      dest: {{ item.value }}
       update: no # We just need to make sure it's there
-    tags: git
-
-  - name: setup Katops repo
-    git:
-      repo: https://github.com/MorzeBaltyk/katops.git
-      dest: ~/git/katops
-      update: no # We just need to make sure it's there
+    with_dict: "{{ github_repo_list }}"
     tags: git
 
   - name: setup Github account
-      command:
-        argv:
-         - git config --global user.name "MorzeBaltyk"
-         - git config --global user.email "chrisdelart@hotmail.fr"
+    shell: |
+      git config --global user.name {{ git_user_name }}
+      git config --global user.email {{ git_user_email }}
     tags: git
 
   tasks:

@@ -1,7 +1,7 @@
 ---
 
   - hostname:
-    name: wodka
+    name: {{ choosen_hostname }}
 
   - name: Set timezone to Europe/Amsterdam
     timezone:
