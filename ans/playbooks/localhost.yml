@@ -7,23 +7,8 @@
     timezone:
       name: Europe/Amsterdam
 
-  - name: Set timezone to Europe/Amsterdam
-    timezone:
-      name: Europe/Amsterdam
-
   - name: Set keyboard
       command: localectl set-locale LANG=en_US.utf8
-
-  - name: setup some expected dirs
-    file:
-      dest: "{{ item }}"
-      state: directory
-    loop:
-    - "~/.privIncludes/"
-    - "~/git/"
-    tags:
-    - git
-    - bash
 
   - name: create file to setup proxy
     lineinfile:
