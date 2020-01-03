@@ -9,3 +9,4 @@
     - { regexp: 'if [ ${HOSTNAME%%.*} == " " ]', replace: "if [ ${HOSTNAME%%.*} == {{ ansible_hostname }} ]" }
     - { regexp: '  export PRIV_DESKTOP=""', replace: "  export PRIV_DESKTOP={{ ansible_hostname }}" }
     - { regexp: '  export SERV_ACC=""', replace: "  export SERV_ACC={{ansible_user_id}}" }
+    tags: bash
