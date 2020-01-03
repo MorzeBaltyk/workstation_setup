@@ -21,6 +21,7 @@
     - git
     - bash
 
+  # Prompt with Credential will appear since repo Katops is private 
   - name: setup Github account
     shell: |
       git config --global user.name {{ git_user_name }}

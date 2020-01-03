@@ -8,7 +8,7 @@
       name: Europe/Amsterdam
 
   - name: Set keyboard
-      command: localectl set-locale LANG=en_US.utf8
+    command: localectl set-locale LANG=en_US.utf8
 
   - name: create file to setup proxy
     lineinfile:
