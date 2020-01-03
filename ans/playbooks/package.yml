@@ -29,8 +29,8 @@
       - pv
       - gnome-tweaks
       - gnome-shell
+      - redhat-lsb-core
       state: latest
     become: true
     ignore_errors: true
     tags: pkgs
-  
