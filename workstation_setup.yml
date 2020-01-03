@@ -21,18 +21,18 @@
     - git
     - bash
 
+  - name: setup Github account
+    shell: |
+      git config --global user.name {{ git_user_name }}
+      git config --global user.email {{ git_user_email }}
+    tags: git
+
   - name: setup all my github repo
     git:
       repo: "{{ item.key }}"
       dest: "{{ item.value }}"
       update: no # We just need to make sure it's there
     with_dict: "{{ github_repo_list }}"
-    tags: git
-
-  - name: setup Github account
-    shell: |
-      git config --global user.name {{ git_user_name }}
-      git config --global user.email {{ git_user_email }}
     tags: git
 
   tasks:
