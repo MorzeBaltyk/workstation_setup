@@ -6,6 +6,6 @@
       regexp: "{{ item.regexp }}"
       replace: "{{ item.replace }}"
     with_items:
-    - { regexp: 'if [ ${HOSTNAME%%.*} == " " ]', replace: 'if [ ${HOSTNAME%%.*} == "{{ansible_hostname}}" ]' }
-    - { regexp: '  export PRIV_DESKTOP=""', replace: '  export PRIV_DESKTOP="{{ansible_hostname}}"' }
-    - { regexp: '  export SERV_ACC=""', replace: '  export SERV_ACC="{{ansible_user_id}}"' }
+    - { regexp: 'if [ ${HOSTNAME%%.*} == " " ]', replace: "if [ ${HOSTNAME%%.*} == {{ ansible_hostname }} ]" }
+    - { regexp: '  export PRIV_DESKTOP=""', replace: "  export PRIV_DESKTOP={{ ansible_hostname }}" }
+    - { regexp: '  export SERV_ACC=""', replace: "  export SERV_ACC={{ansible_user_id}}" }
