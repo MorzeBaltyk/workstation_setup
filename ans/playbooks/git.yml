@@ -7,6 +7,13 @@
       update: no # We just need to make sure it's there
     tags: git
 
+  - name: setup Katops repo
+    git:
+      repo: https://github.com/MorzeBaltyk/katops.git
+      dest: ~/git/katops
+      update: no # We just need to make sure it's there
+    tags: git
+
   - name: setup Github account
       command:
         argv:
