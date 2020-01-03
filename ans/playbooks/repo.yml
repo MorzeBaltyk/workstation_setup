@@ -8,7 +8,7 @@
     check_mode: no
     tags: repo
 
-    # A RPM package to install a repo  
+    # A RPM package to install a repo
   - name: setup RPMfusion repository
     vars:
       rpmfusion_rpm: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
@@ -21,18 +21,18 @@
     # A Fedora package
   - name: setup Fedora Workstation Repos
     dnf:
-      name: 
+      name:
       - fedora-workstation-repositories
       state: present
     become: true
     ignore_errors: true
     tags: repo
 
-    # An URL that we set in our /etc/yum.repo.d/ conf 
+    # An URL that we set in our /etc/yum.repo.d/ conf
   - name: setup Google repos
     yum_repository:
       name: google-chrome
-      description: google-chrome 
+      description: google-chrome
       baseurl: "http://dl.google.com/linux/chrome/rpm/stable/x86_64"
       gpgkey: "https://dl.google.com/linux/linux_signing_key.pub"
       gpgcheck: true
