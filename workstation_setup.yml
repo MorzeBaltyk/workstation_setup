@@ -3,37 +3,37 @@
 - hosts: localhost
 
   pre_tasks:
-      - name: setup some expected dirs
-        file:
-          dest: "{{ item }}"
-          state: directory
-        loop:
-        - "~/.privIncludes/"
-        - "~/git/"
-        tags:
-        - git
-        - bash
+  - name: setup some expected dirs
+    file:
+      dest: "{{ item }}"
+      state: directory
+    loop:
+    - "~/.privIncludes/"
+    - "~/git/"
+    tags:
+    - git
+    - bash
 
-      - name: setup my workstation setup repo
-        git:
-          repo: https://github.com/MorzeBaltyk/workstation_setup.git
-          dest: ~/git/workstation_setup
-          update: no # We just need to make sure it's there
-        tags: git
+  - name: setup my workstation setup repo
+    git:
+      repo: https://github.com/MorzeBaltyk/workstation_setup.git
+      dest: ~/git/workstation_setup
+      update: no # We just need to make sure it's there
+    tags: git
 
-      - name: setup Katops repo
-        git:
-          repo: https://github.com/MorzeBaltyk/katops.git
-          dest: ~/git/katops
-          update: no # We just need to make sure it's there
-        tags: git
+  - name: setup Katops repo
+    git:
+      repo: https://github.com/MorzeBaltyk/katops.git
+      dest: ~/git/katops
+      update: no # We just need to make sure it's there
+    tags: git
 
-      - name: setup Github account
-          command:
-            argv:
-             - git config --global user.name "MorzeBaltyk"
-             - git config --global user.email "chrisdelart@hotmail.fr"
-        tags: git
+  - name: setup Github account
+      command:
+        argv:
+         - git config --global user.name "MorzeBaltyk"
+         - git config --global user.email "chrisdelart@hotmail.fr"
+    tags: git
 
   tasks:
   - name: Setup hostname and needed files
