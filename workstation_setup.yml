@@ -23,8 +23,8 @@
 
   - name: setup all my github repo
     git:
-      repo: {{ item.key }}
-      dest: {{ item.value }}
+      repo: "{{ item.key }}"
+      dest: "{{ item.value }}"
       update: no # We just need to make sure it's there
     with_dict: "{{ github_repo_list }}"
     tags: git
