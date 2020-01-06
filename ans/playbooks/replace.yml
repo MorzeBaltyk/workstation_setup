@@ -2,7 +2,7 @@
 
   - name: replace in .bashrc the line where hostname and user is needed
     replace:
-      dest: ~/.bashrc
+      dest: ~/git/workstation_setup/.bashrc
       regexp: "{{ item.regexp }}"
       replace: "{{ item.replace }}"
     with_items:

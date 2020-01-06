@@ -4,14 +4,16 @@
     hostname:
       name: "{{ choosen_hostname }}"
     tags: local
-    
+
   - name: Set timezone to Europe/Amsterdam
     timezone:
       name: Europe/Amsterdam
     tags: local
 
   - name: Set keyboard
-    command: localectl set-locale LANG=en_US.utf8
+    shell: |
+      localectl set-locale LANG=en_US.utf8
+      localectl set-keymap us
     tags: local
 
   - name: create file to setup proxy
