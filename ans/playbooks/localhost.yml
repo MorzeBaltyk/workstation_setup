@@ -3,13 +3,16 @@
   - name: set hostname of the workstation
     hostname:
       name: "{{ choosen_hostname }}"
-
+    tags: local
+    
   - name: Set timezone to Europe/Amsterdam
     timezone:
       name: Europe/Amsterdam
+    tags: local
 
   - name: Set keyboard
     command: localectl set-locale LANG=en_US.utf8
+    tags: local
 
   - name: create file to setup proxy
     lineinfile:
@@ -17,14 +20,14 @@
         line: "{{ item }}"
         create: true
     loop:
-    - "# Complete later, those values below." 
+    - "# Complete later, those values below."
     - "# This Directory is not handle by git."
     - "# Rename file in setproxy.bash, then source .bash_profile "
     - "export proxy_username="
     - "export proxy_password="
     - "export proxy_server="
     - "export proxy_port="
-    tags: bash
+    tags: proxy
 
   - name: Validate and create if doesn't exist
     stat : path=~/.hushlogin
