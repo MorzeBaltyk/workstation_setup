@@ -21,7 +21,7 @@
     - git
     - bash
 
-  # Prompt with Credential will appear since repo Katops is private 
+  # Prompt with Credential will appear since repo Katops is private
   - name: setup Github account
     shell: |
       git config --global user.name {{ git_user_name }}
@@ -46,10 +46,10 @@
   - name: Install Packages
     include: ~/git/workstation_setup/ans/playbooks/package.yml
 
-  - name: Provision Files
-    include: ~/git/workstation_setup/ans/playbooks/replace.yml
-
   - name: Symlink
     include: ~/git/workstation_setup/ans/playbooks/symlink.yml
 
+  - name: Provision Files
+    include: ~/git/workstation_setup/ans/playbooks/replace.yml
+    
   # Need to Source .bash_profile at the end
