@@ -45,7 +45,7 @@ esac
 ############################################################################
 #      Common vars
 ############################################################################
-export SERV_ACC=carochr #Need to put it here as well for distant connexion
+export SERV_ACC=carochr
 export PAGER=less
 export EDITOR=vim
 export MANPATH=/usr/man:/usr/openwin/share/man:/usr/dt/man:/usr/opt/SUNWmd/man:/opt/SUNWatm/man:/usr/local/man:/usr/local/teTeX/man:/usr/local/ecb-doc/man:/usr/sfw/share/man:/usr/local/rrdtool/man:/usr/cluster/man:/opt/SUNWcluster/man:/usr/share/man:
