@@ -82,17 +82,19 @@ echo "scale=1; $(df -k | egrep -e '(/dev/|rpool)' | grep -v /fd | grep -v cdrom 
 ############################################################################
 #      Personal sourcing
 ############################################################################
-## On Local Desktop ; but HomeDir Shared
-#if [ ! -z "$PRIV_DESKTOP" ]; then
+## On Local Desktop ; in the case of a HomeDir Shared on all env, comment the first "if"
+if [ ! -z "$PRIV_DESKTOP" ]; then
    #for FILE in /home/$SERV_ACC/.privIncludes/*.bash; do
-   for FILE in ~/.privIncludes/*.bash; do
-      source $FILE
-   done
+   if ls ~/.privIncludes/*.bash > /dev/null 2>&1; then 
+     for FILE in ~/.privIncludes/*.bash; do
+        source $FILE
+     done
+   fi
    #for FILE in /home/$SERV_ACC/.bashIncludes/*.bash; do
    for FILE in ~/.bashIncludes/*.bash; do
       source $FILE
    done
-#fi
+fi
 
 ############################################################################
 #	PATH

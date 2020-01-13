@@ -10,3 +10,12 @@
     - { regexp: '  export PRIV_DESKTOP=""', replace: "  export PRIV_DESKTOP={{ ansible_hostname }}" }
     - { regexp: '  export SERV_ACC=""', replace: "  export SERV_ACC={{ansible_user_id}}" }
     tags: bash
+
+  - name: replace in .bash_profile the line where hostname and user is needed
+    replace:
+      dest: ~/git/workstation_setup/.bash_profile
+      regexp: "{{ item.regexp }}"
+      replace: "{{ item.replace }}"
+    with_items:
+    - { regexp: '^export SERV_ACC=.*', replace: "export SERV_ACC={{ansible_user_id}}" }
+    tags: bash

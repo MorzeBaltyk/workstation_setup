@@ -42,4 +42,5 @@
 #  - file:
 #      path: ~/.hushlogin
 #      state: '{{ "file" if validate.stat.exists else "touch" }}'
+#      when: ansible_facts['ansible_bios_version'] != "VirtualBox"
 #    tags: hush
